@@ -1,4 +1,5 @@
 import os
+import platform
 from user import User
 from utils import (
     YACHT_DICE_TEXT,
@@ -11,8 +12,11 @@ from utils import (
 )
 
 
+CLEAR = "cls" if platform.system() == "Windows" else "clr"
+
+
 def print_logo():
-    os.system("cls")
+    os.system(CLEAR)
     print(YACHT_DICE_TEXT)
     input()
 
@@ -26,7 +30,7 @@ def score_board():
 
 
 def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
-    os.system("cls")
+    os.system(CLEAR)
     op_sc, tp_sc = op.get_score(), tp.get_score()
     op_subtotal, tp_subtotal = 0, 0
     op_total, tp_total = 0, 0
@@ -116,7 +120,7 @@ def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
 
 
 def game_result(op: User, tp: User):
-    os.system("cls")
+    os.system(CLEAR)
     op_sc, tp_sc = op.get_score(), tp.get_score()
     display = f"""
         ---------------------------

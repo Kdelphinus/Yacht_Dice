@@ -68,7 +68,7 @@ def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
     | Sixes       | {RED_COLOR}{str(op_sc[5]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[5]).rjust(3, " ")}{END_COLOR} |
     |-------------------------|
     |  Subtotal   | {RED_COLOR}{str(op_subtotal).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_subtotal).rjust(3, " ")}{END_COLOR} |
-    |  Bonus      | {RED_COLOR}{str(op_sc[12]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[12]).rjust(3, " ")}{END_COLOR} |
+    |  Bonus(+35) | {RED_COLOR}{str(op_sc[12]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[12]).rjust(3, " ")}{END_COLOR} |
     |-------------------------|
     | Choice      | {RED_COLOR}{str(op_sc[6]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[6]).rjust(3, " ")}{END_COLOR} |
     | 4 of a Kind | {RED_COLOR}{str(op_sc[7]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[7]).rjust(3, " ")}{END_COLOR} |
@@ -122,6 +122,21 @@ def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
 def game_result(op: User, tp: User):
     os.system(CLEAR)
     op_sc, tp_sc = op.get_score(), tp.get_score()
+    op_total, tp_total = 0, 0
+    op_subtotal, tp_subtotal = 0, 0
+    for i, (one, two) in enumerate(zip(op_sc, tp_sc)):
+        if one.isdigit():
+            op_total += int(one)
+            if i < 6:
+                op_subtotal += int(one)
+        if two.isdigit():
+            tp_total += int(two)
+            if i < 6:
+                tp_subtotal += int(two)
+    if op_sc[-1] == "-":
+        op_sc[-1] = "0"
+    if tp_sc[-1] == "-":
+        tp_sc[-1] = "0"
     display = f"""
         ---------------------------
         | Turn 12/12  |           |
@@ -135,8 +150,8 @@ def game_result(op: User, tp: User):
         | Fives       | {RED_COLOR}{str(op_sc[4]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[4]).rjust(3, " ")}{END_COLOR} |
         | Sixes       | {RED_COLOR}{str(op_sc[5]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[5]).rjust(3, " ")}{END_COLOR} |
         |-------------------------|
-        |  Subtotal   | {RED_COLOR}{str(sum(op_sc[:6])).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(sum(tp_sc[:6])).rjust(3, " ")}{END_COLOR} |
-        |  Bonus      | {RED_COLOR}{str(op_sc[12]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[12]).rjust(3, " ")}{END_COLOR} |
+        |  Subtotal   | {RED_COLOR}{str(op_subtotal).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_subtotal).rjust(3, " ")}{END_COLOR} |
+        |  Bonus(+35) | {RED_COLOR}{str(op_sc[12]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[12]).rjust(3, " ")}{END_COLOR} |
         |-------------------------|
         | Choice      | {RED_COLOR}{str(op_sc[6]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[6]).rjust(3, " ")}{END_COLOR} |
         | 4 of a Kind | {RED_COLOR}{str(op_sc[7]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[7]).rjust(3, " ")}{END_COLOR} |
@@ -145,7 +160,7 @@ def game_result(op: User, tp: User):
         | L. Straight | {RED_COLOR}{str(op_sc[10]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[10]).rjust(3, " ")}{END_COLOR} |
         | Yacht       | {RED_COLOR}{str(op_sc[11]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[11]).rjust(3, " ")}{END_COLOR} |
         |-------------------------|
-        |    Total    | {RED_COLOR}{str(sum(op_sc)).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(sum(tp_sc)).rjust(3, " ")}{END_COLOR} |
+        |    Total    | {RED_COLOR}{str(op_total).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_total).rjust(3, " ")}{END_COLOR} |
         ---------------------------
         """
     print(display)
@@ -156,7 +171,7 @@ if __name__ == "__main__":
     one_p, two_p = User("one_p"), User("two_p")
     users = [one_p, two_p]
 
-    for t in range(1, 12):
+    for t in range(1, 13):
         for idx, user in enumerate(users):
             c = 1
             tmp = 1

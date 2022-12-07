@@ -43,7 +43,7 @@ class User:
         elif i == 8 and dices_cnt[0][1] == 3 and dices_cnt[1][1] == 2:
             return 1
         elif i == 9 and (
-            self._is_straight(dices_int[:4]) or self._is_straight(dices_int[1:])
+            self._is_straight(list(set(dices_int[:4]))) or self._is_straight(list(set(dices_int[1:])))
         ):
             return 1
         elif i == 10 and self._is_straight(dices_int):

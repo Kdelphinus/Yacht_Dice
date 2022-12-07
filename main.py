@@ -67,10 +67,17 @@ def game_display(cnt: int, turn: int, user_lst: list, cp: int):
                 d += "      " + two_c.ljust(20, " ")
         print(d)
     if cnt == 3:
-        p = "1p" if cp == 0 else "2p"
+        if cp == 0:
+            p = RED_COLOR + "1p" + END_COLOR
+        elif cp == 1:
+            p = BLUE_COLOR + "2p" + END_COLOR
+        elif cp == 2:
+            p = YELLOW_COLOR + "3p" + END_COLOR
+        else:
+            p = CYAN_COLOR + "4p" + END_COLOR
         while True:
             try:
-                choice = int(input(f"Choice the Score({p}): "))
+                choice = int(input(f"점수를 선택하세요({p}): "))
                 if choice in choice_number:
                     return choice
             except ValueError:
@@ -96,14 +103,14 @@ if __name__ == "__main__":
     users = []
     for idx in range(num):
         if idx == 0:
-            p = RED_COLOR + "1p" + END_COLOR
+            play = RED_COLOR + "1p" + END_COLOR
         elif idx == 1:
-            p = BLUE_COLOR + "2p" + END_COLOR
+            play = BLUE_COLOR + "2p" + END_COLOR
         elif idx == 2:
-            p = YELLOW_COLOR + "3p" + END_COLOR
+            play = YELLOW_COLOR + "3p" + END_COLOR
         else:
-            p = CYAN_COLOR + "4p" + END_COLOR
-        name = input(f"{p} 이름을 입력하세요: ")
+            play = CYAN_COLOR + "4p" + END_COLOR
+        name = input(f"{play} 이름을 입력하세요: ")
         users.append(User(name))
 
     for t in range(1, 13):

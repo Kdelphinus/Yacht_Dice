@@ -32,7 +32,7 @@ def two_player(turn: int, users: list):
     ---------------------------
     | Turn {str(turn).rjust(2, " ")}/12  |           |
     |-------------------------|
-    | Categories  |  1p |  2p |
+    | Categories  |  {RED_COLOR}1p{END_COLOR} |  {BLUE_COLOR}2p{END_COLOR} |
     |-------------------------|
     | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} |
     | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} |
@@ -78,7 +78,7 @@ def two_result(users: list):
             ---------------------------
             | Turn 12/12  |           |
             |-------------------------|
-            | Categories  |  1p |  2p |
+            | Categories  |  {RED_COLOR}1p{END_COLOR} |  {BLUE_COLOR}2p{END_COLOR} |
             |-------------------------|
             | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} |
             | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} |
@@ -143,7 +143,7 @@ def three_player(turn: int, users: list):
         ---------------------------------
         | Turn {str(turn).rjust(2, " ")}/12  |                 |
         |-------------------------------|
-        | Categories  |  1p |  2p |  3p |
+        | Categories  |  {RED_COLOR}1p{END_COLOR} |  {BLUE_COLOR}2p{END_COLOR} |  {YELLOW_COLOR}3p{END_COLOR} |
         |-------------------------------|
         | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[0]).rjust(3, " ")}{END_COLOR} |
         | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[1]).rjust(3, " ")}{END_COLOR} |
@@ -199,7 +199,7 @@ def three_result(users: list):
         ---------------------------------
         | Turn 12/12  |                 |
         |-------------------------------|
-        | Categories  |  1p |  2p |  3p |
+        | Categories  |  {RED_COLOR}1p{END_COLOR} |  {BLUE_COLOR}2p{END_COLOR} |  {YELLOW_COLOR}3p{END_COLOR} |
         |-------------------------------|
         | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[0]).rjust(3, " ")}{END_COLOR} |
         | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[1]).rjust(3, " ")}{END_COLOR} |
@@ -274,7 +274,7 @@ def four_player(turn: int, users: list):
         ---------------------------------------
         | Turn {str(turn).rjust(2, " ")}/12  |                       |
         |-------------------------------------|
-        | Categories  |  1p |  2p |  3p |  4p |
+        | Categories  |  {RED_COLOR}1p{END_COLOR} |  {BLUE_COLOR}2p{END_COLOR} |  {YELLOW_COLOR}3p{END_COLOR} |  {CYAN_COLOR}4p{END_COLOR} |
         |-------------------------------------|
         | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[0]).rjust(3, " ")}{END_COLOR} | {CYAN_COLOR}{str(fo_sc[0]).rjust(3, " ")}{END_COLOR} |
         | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[1]).rjust(3, " ")}{END_COLOR} | {CYAN_COLOR}{str(fo_sc[1]).rjust(3, " ")}{END_COLOR} |
@@ -337,7 +337,7 @@ def four_result(users: list):
         ---------------------------------------
         | Turn 12/12  |                       |
         |-------------------------------------|
-        | Categories  |  1p |  2p |  3p |  4p |
+        | Categories  |  {RED_COLOR}1p{END_COLOR} |  {BLUE_COLOR}2p{END_COLOR} |  {YELLOW_COLOR}3p{END_COLOR} |  {CYAN_COLOR}4p{END_COLOR} |
         |-------------------------------------|
         | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[0]).rjust(3, " ")}{END_COLOR} | {CYAN_COLOR}{str(fo_sc[0]).rjust(3, " ")}{END_COLOR} |
         | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} | {YELLOW_COLOR}{str(th_sc[1]).rjust(3, " ")}{END_COLOR} | {CYAN_COLOR}{str(fo_sc[1]).rjust(3, " ")}{END_COLOR} |

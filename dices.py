@@ -31,7 +31,10 @@ class Dices:
             return 6
         while True:
             try:
-                tmp = int(input(f"Choice the Dices({p}): "))
+                print("- 주사위 킵하기: 1 ~ 5")
+                print("- 다시 주사위 던지기: 0")
+                print("- 바로 점수 계산하기: 6")
+                tmp = int(input(f"주사위를 선택하세요({p}): "))
                 if tmp == 0:
                     return 0
                 if 0 < tmp < 6:

@@ -119,7 +119,7 @@ def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
                 continue
 
 
-def game_result(op: User, tp: User):
+def game_result(op: User, tp: User) -> str:
     os.system(CLEAR)
     op_sc, tp_sc = op.get_score(), tp.get_score()
     op_total, tp_total = 0, 0
@@ -164,11 +164,18 @@ def game_result(op: User, tp: User):
         ---------------------------
         """
     print(display)
+    if op_total > tp_total:
+        return RED_COLOR + op.name + END_COLOR
+    elif op_total < tp_total:
+        return BLUE_COLOR + tp.name + END_COLOR
+    else:
+        return GREEN_COLOR + "draw" + END_COLOR
 
 
 if __name__ == "__main__":
     print_logo()
-    one_p, two_p = User("one_p"), User("two_p")
+    one_p = User(input("1p 이름을 입력하세요: "))
+    two_p = User(input("2p 이름을 입력하세요: "))
     users = [one_p, two_p]
 
     for t in range(1, 13):
@@ -187,4 +194,4 @@ if __name__ == "__main__":
                     user.dices.pick_dices(c, idx)
                     user.set_score(game_display(c, t, one_p, two_p, idx))
                 c += 1
-    print(game_result(one_p, two_p))
+    print(f"Winner: {game_result(one_p, two_p)}")

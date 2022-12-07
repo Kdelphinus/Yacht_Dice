@@ -17,11 +17,14 @@ class Dices:
         return self.dices
 
     def pick_dices(self, cnt: int, idx: int) -> int:
-        p = (
-            utils.RED_COLOR + "1p" + utils.END_COLOR
-            if idx == 0
-            else utils.BLUE_COLOR + "2p" + utils.END_COLOR
-        )
+        if idx == 0:
+            p = utils.RED_COLOR + "1p" + utils.END_COLOR
+        elif idx == 1:
+            p = utils.BLUE_COLOR + "2p" + utils.END_COLOR
+        elif idx == 2:
+            p = utils.YELLOW_COLOR + "3p" + utils.END_COLOR
+        else:
+            p = utils.CYAN_COLOR + "4p" + utils.END_COLOR
         if cnt == 3:
             for i in range(5):
                 self.dices[i][1] = 1

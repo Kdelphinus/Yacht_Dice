@@ -5,11 +5,14 @@ from utils import (
     YACHT_DICE_TEXT,
     CATEGORIES,
     DICES_DRAW,
-    GREEN_COLOR,
-    BLUE_COLOR,
     RED_COLOR,
+    BLUE_COLOR,
+    YELLOW_COLOR,
+    CYAN_COLOR,
+    GREEN_COLOR,
     END_COLOR,
 )
+import display
 
 
 CLEAR = "cls" if platform.system() == "Windows" else "clear"
@@ -18,70 +21,25 @@ CLEAR = "cls" if platform.system() == "Windows" else "clear"
 def print_logo():
     os.system(CLEAR)
     print(YACHT_DICE_TEXT)
-    input()
+    n = int(input("플레이 할 인원 수를 입력하세요(2 ~ 4): "))
+    return n
 
 
-def score_board():
-    print("|", end=" ")
-    print("{:^10}".format("name"), end=" ")
-    for c in CATEGORIES:
-        print(f"| {c:^11} ", end="")
-    print("|")
-
-
-def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
+def game_display(cnt: int, turn: int, user_lst: list, cp: int):
     os.system(CLEAR)
-    op_sc, tp_sc = op.get_score(), tp.get_score()
-    op_subtotal, tp_subtotal = 0, 0
-    op_total, tp_total = 0, 0
-    for i, (one, two) in enumerate(zip(op_sc, tp_sc)):
-        if one.isdigit():
-            op_total += int(one)
-            if i < 6:
-                op_subtotal += int(one)
-        if two.isdigit():
-            tp_total += int(two)
-            if i < 6:
-                tp_subtotal += int(two)
-    if op_subtotal > 62 and op_sc[-1] == "-":
-        op_sc[-1] = "35"
-        op.set_score(13)
-    if tp_subtotal > 62 and tp_sc[-1] == "-":
-        tp_sc[-1] = "35"
-        tp.set_score(13)
-    dices = op.dices.get_dices() if cp == 0 else tp.dices.get_dices()
-    choice_number, choice_score = op.pick_score() if cp == 0 else tp.pick_score()
+    dices = user_lst[cp].dices.get_dices()
+    choice_number, choice_score = user_lst[cp].pick_score()
     mid = len(choice_score) // 2
     one_choice = choice_score[:mid]
     two_choice = choice_score[mid:]
-    display = f"""
-    ---------------------------
-    | Turn {str(turn).rjust(2, " ")}/12  |           |
-    |-------------------------|
-    | Categories  |  1p |  2p |
-    |-------------------------|
-    | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} |
-    | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} |
-    | Threes      | {RED_COLOR}{str(op_sc[2]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[2]).rjust(3, " ")}{END_COLOR} |
-    | Fours       | {RED_COLOR}{str(op_sc[3]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[3]).rjust(3, " ")}{END_COLOR} |
-    | Fives       | {RED_COLOR}{str(op_sc[4]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[4]).rjust(3, " ")}{END_COLOR} |
-    | Sixes       | {RED_COLOR}{str(op_sc[5]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[5]).rjust(3, " ")}{END_COLOR} |
-    |-------------------------|
-    |  Subtotal   | {RED_COLOR}{str(op_subtotal).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_subtotal).rjust(3, " ")}{END_COLOR} |
-    |  Bonus(+35) | {RED_COLOR}{str(op_sc[12]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[12]).rjust(3, " ")}{END_COLOR} |
-    |-------------------------|
-    | Choice      | {RED_COLOR}{str(op_sc[6]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[6]).rjust(3, " ")}{END_COLOR} |
-    | 4 of a Kind | {RED_COLOR}{str(op_sc[7]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[7]).rjust(3, " ")}{END_COLOR} |
-    | Full House  | {RED_COLOR}{str(op_sc[8]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[8]).rjust(3, " ")}{END_COLOR} |
-    | S. Straight | {RED_COLOR}{str(op_sc[9]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[9]).rjust(3, " ")}{END_COLOR} |
-    | L. Straight | {RED_COLOR}{str(op_sc[10]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[10]).rjust(3, " ")}{END_COLOR} |
-    | Yacht       | {RED_COLOR}{str(op_sc[11]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[11]).rjust(3, " ")}{END_COLOR} |
-    |-------------------------|
-    |    Total    | {RED_COLOR}{str(op_total).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_total).rjust(3, " ")}{END_COLOR} |
-    ---------------------------
-    """
+    if len(user_lst) == 2:
+        disp = display.two_player(turn, user_lst)
+    elif len(user_lst) == 3:
+        disp = display.three_player(turn, user_lst)
+    else:
+        disp = display.four_player(turn, user_lst)
 
-    for i, d in enumerate(display.split("\n")):
+    for i, d in enumerate(disp.split("\n")):
         if i == 8:
             d += f"      Count: {cnt} / 3"
         if 10 <= i <= 16:
@@ -116,67 +74,37 @@ def game_display(cnt: int, turn: int, op: User, tp: User, cp: int):
                 if choice in choice_number:
                     return choice
             except ValueError:
-                continue
+                game_display(cnt, turn, user_lst, cp)
 
 
-def game_result(op: User, tp: User) -> str:
+def game_result(user_lst: list) -> str:
     os.system(CLEAR)
-    op_sc, tp_sc = op.get_score(), tp.get_score()
-    op_total, tp_total = 0, 0
-    op_subtotal, tp_subtotal = 0, 0
-    for i, (one, two) in enumerate(zip(op_sc, tp_sc)):
-        if one.isdigit():
-            op_total += int(one)
-            if i < 6:
-                op_subtotal += int(one)
-        if two.isdigit():
-            tp_total += int(two)
-            if i < 6:
-                tp_subtotal += int(two)
-    if op_sc[-1] == "-":
-        op_sc[-1] = "0"
-    if tp_sc[-1] == "-":
-        tp_sc[-1] = "0"
-    display = f"""
-        ---------------------------
-        | Turn 12/12  |           |
-        |-------------------------|
-        | Categories  |  1p |  2p |
-        |-------------------------|
-        | Aces        | {RED_COLOR}{str(op_sc[0]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[0]).rjust(3, " ")}{END_COLOR} |
-        | Deuces      | {RED_COLOR}{str(op_sc[1]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[1]).rjust(3, " ")}{END_COLOR} |
-        | Threes      | {RED_COLOR}{str(op_sc[2]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[2]).rjust(3, " ")}{END_COLOR} |
-        | Fours       | {RED_COLOR}{str(op_sc[3]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[3]).rjust(3, " ")}{END_COLOR} |
-        | Fives       | {RED_COLOR}{str(op_sc[4]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[4]).rjust(3, " ")}{END_COLOR} |
-        | Sixes       | {RED_COLOR}{str(op_sc[5]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[5]).rjust(3, " ")}{END_COLOR} |
-        |-------------------------|
-        |  Subtotal   | {RED_COLOR}{str(op_subtotal).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_subtotal).rjust(3, " ")}{END_COLOR} |
-        |  Bonus(+35) | {RED_COLOR}{str(op_sc[12]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[12]).rjust(3, " ")}{END_COLOR} |
-        |-------------------------|
-        | Choice      | {RED_COLOR}{str(op_sc[6]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[6]).rjust(3, " ")}{END_COLOR} |
-        | 4 of a Kind | {RED_COLOR}{str(op_sc[7]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[7]).rjust(3, " ")}{END_COLOR} |
-        | Full House  | {RED_COLOR}{str(op_sc[8]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[8]).rjust(3, " ")}{END_COLOR} |
-        | S. Straight | {RED_COLOR}{str(op_sc[9]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[9]).rjust(3, " ")}{END_COLOR} |
-        | L. Straight | {RED_COLOR}{str(op_sc[10]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[10]).rjust(3, " ")}{END_COLOR} |
-        | Yacht       | {RED_COLOR}{str(op_sc[11]).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_sc[11]).rjust(3, " ")}{END_COLOR} |
-        |-------------------------|
-        |    Total    | {RED_COLOR}{str(op_total).rjust(3, " ")}{END_COLOR} | {BLUE_COLOR}{str(tp_total).rjust(3, " ")}{END_COLOR} |
-        ---------------------------
-        """
-    print(display)
-    if op_total > tp_total:
-        return RED_COLOR + op.name + END_COLOR
-    elif op_total < tp_total:
-        return BLUE_COLOR + tp.name + END_COLOR
+    if len(user_lst) == 2:
+        return display.two_result(user_lst)
+    elif len(user_lst) == 3:
+        return display.three_result(user_lst)
     else:
-        return GREEN_COLOR + "draw" + END_COLOR
+        return display.four_result(user_lst)
 
 
 if __name__ == "__main__":
-    print_logo()
-    one_p = User(input("1p 이름을 입력하세요: "))
-    two_p = User(input("2p 이름을 입력하세요: "))
-    users = [one_p, two_p]
+    while True:
+        num = print_logo()
+        if 2 <= num <= 4:
+            break
+
+    users = []
+    for idx in range(num):
+        if idx == 0:
+            p = RED_COLOR + "1p" + END_COLOR
+        elif idx == 1:
+            p = BLUE_COLOR + "2p" + END_COLOR
+        elif idx == 2:
+            p = YELLOW_COLOR + "3p" + END_COLOR
+        else:
+            p = CYAN_COLOR + "4p" + END_COLOR
+        name = input(f"{p} 이름을 입력하세요: ")
+        users.append(User(name))
 
     for t in range(1, 13):
         for idx, user in enumerate(users):
@@ -187,11 +115,11 @@ if __name__ == "__main__":
                 tmp = 1 if tmp != 6 else 6
                 if c < 3 and tmp != 6:
                     while 0 < tmp < 6:
-                        game_display(c, t, one_p, two_p, idx)
+                        game_display(c, t, users, idx)
                         tmp = user.dices.pick_dices(c, idx)
                 else:
                     c = 3
                     user.dices.pick_dices(c, idx)
-                    user.set_score(game_display(c, t, one_p, two_p, idx))
+                    user.set_score(game_display(c, t, users, idx))
                 c += 1
-    print(f"Winner: {game_result(one_p, two_p)}")
+    print(f"Winner: {game_result(users)}")

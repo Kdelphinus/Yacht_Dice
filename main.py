@@ -12,7 +12,7 @@ from utils import (
 )
 
 
-CLEAR = "cls" if platform.system() == "Windows" else "clr"
+CLEAR = "cls" if platform.system() == "Windows" else "clear"
 
 
 def print_logo():

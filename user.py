@@ -26,6 +26,8 @@ class User:
 
     @staticmethod
     def _is_straight(dice_int: list):
+        if len(dice_int) < 4:
+            return 0
         for i in range(len(dice_int) - 1):
             if dice_int[i + 1] - dice_int[i] != 1:
                 return 0
@@ -42,9 +44,9 @@ class User:
             return 1
         elif i == 8 and dices_cnt[0][1] == 3 and dices_cnt[1][1] == 2:
             return 1
-        elif i == 9 and (
-            self._is_straight(list(set(dices_int[:4]))) or self._is_straight(list(set(dices_int[1:])))
-        ):
+        elif i == 9 and len(set(dices_int)) == len(dices_int) and (self._is_straight(dices_int[:4]) or self._is_straight(dices_int[1:])):
+            return 1
+        elif i == 9 and self._is_straight(list(set(dices_int))):
             return 1
         elif i == 10 and self._is_straight(dices_int):
             return 1

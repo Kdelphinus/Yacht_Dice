@@ -1,5 +1,5 @@
 from dices import Dices
-from utils import CATEGORIES
+from utils import CATEGORIES, NUM_ICONS
 from collections import Counter
 
 
@@ -44,7 +44,11 @@ class User:
             return 1
         elif i == 8 and dices_cnt[0][1] == 3 and dices_cnt[1][1] == 2:
             return 1
-        elif i == 9 and len(set(dices_int)) == len(dices_int) and (self._is_straight(dices_int[:4]) or self._is_straight(dices_int[1:])):
+        elif (
+            i == 9
+            and len(set(dices_int)) == len(dices_int)
+            and (self._is_straight(dices_int[:4]) or self._is_straight(dices_int[1:]))
+        ):
             return 1
         elif i == 9 and self._is_straight(list(set(dices_int))):
             return 1
@@ -64,11 +68,11 @@ class User:
             flag = self._possible_score(self, i, s, dices_cnt, sorted(dices_int))
             if flag == 1:
                 choice_score.append(
-                    f"{i + 1}. {CATEGORIES[i]}: {self._cal_score(i, dices_int)}"
+                    f"{NUM_ICONS[i]}. {CATEGORIES[i]}: {self._cal_score(i, dices_int)}"
                 )
                 choice_number.append(i + 1)
             elif flag == 2:
-                choice_score.append(f"{i + 1}. {CATEGORIES[i]}: 0")
+                choice_score.append(f"{NUM_ICONS[i]}. {CATEGORIES[i]}: 0")
                 choice_number.append(i + 1)
         return choice_number, choice_score
 

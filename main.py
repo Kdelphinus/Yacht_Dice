@@ -102,24 +102,33 @@ def game_result(user_lst: list) -> str:
 
 
 if __name__ == "__main__":
+    ans, flag = "n", False
     while True:
-        while True:
-            num = print_logo()
-            if 2 <= num <= 4:
-                break
+        if flag:
+            while True:
+                ans = input("동일한 플레이어로 진행하시겠습니까?(y/n): ")
+                if ans == "y" or ans == "n":
+                    break
+        if ans == "n":
+            flag = False
+        if not flag:
+            while True:
+                num = print_logo()
+                if 2 <= num <= 4:
+                    break
 
-        users = []
-        for idx in range(num):
-            if idx == 0:
-                play = RED_COLOR + "1p" + END_COLOR
-            elif idx == 1:
-                play = BLUE_COLOR + "2p" + END_COLOR
-            elif idx == 2:
-                play = YELLOW_COLOR + "3p" + END_COLOR
-            else:
-                play = CYAN_COLOR + "4p" + END_COLOR
-            name = input(f"{play} 이름을 입력하세요: ")
-            users.append(User(name))
+            users = []
+            for idx in range(num):
+                if idx == 0:
+                    play = RED_COLOR + "1p" + END_COLOR
+                elif idx == 1:
+                    play = BLUE_COLOR + "2p" + END_COLOR
+                elif idx == 2:
+                    play = YELLOW_COLOR + "3p" + END_COLOR
+                else:
+                    play = CYAN_COLOR + "4p" + END_COLOR
+                name = input(f"{play} 이름을 입력하세요: ")
+                users.append(User(name))
 
         for t in range(1, 13):
             for idx, user in enumerate(users):
@@ -137,7 +146,8 @@ if __name__ == "__main__":
                         user.dices.pick_dices(c, idx)
                         user.set_score(game_display(c, t, users, idx))
                     c += 1
-        print(f"Winner: {game_result(users)}")
+        display.print_winner(game_result(users))
         regame = input("게임을 다시 하려면 r을 누르세요: ")
+        flag = True
         if regame != "r":
             break

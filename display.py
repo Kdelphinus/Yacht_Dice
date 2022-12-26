@@ -370,3 +370,8 @@ def four_result(users: list):
         return CYAN_COLOR + users[3].name + END_COLOR
     else:
         return GREEN_COLOR + "draw" + END_COLOR
+
+
+def print_winner(winner: str):
+    """아이디어 생기면 구현할 예정"""
+    print(f"Winner: {winner}")

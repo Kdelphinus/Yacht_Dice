@@ -33,14 +33,14 @@ class Dices:
             try:
                 print("- 주사위 킵하기: 1 ~ 5")
                 print("- 다시 주사위 던지기: 0")
-                print("- 바로 점수 계산하기: 6")
+                print("- 바로 점수 계산하기: 8")
                 tmp = int(input(f"주사위를 선택하세요({p}): "))
                 if tmp == 0:
                     return 0
                 if 0 < tmp < 6:
                     self.dices[tmp - 1][1] = 0 if self.dices[tmp - 1][1] == 1 else 1
                     return tmp
-                elif tmp == 6:
+                elif tmp == 8:
                     for i in range(5):
                         self.dices[i][1] = 1
                     return 6

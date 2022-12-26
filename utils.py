@@ -33,11 +33,26 @@ CATEGORIES = [
     "Fives",
     "Sixes",
     "Choice",
-    "4 of a Kind",
+    "Four of a Kind",
     "Full House",
     "S. Straight",
     "L. Straight",
     "Yacht",
+]
+
+NUM_ICONS = [
+    "①",
+    "②",
+    "③",
+    "④",
+    "⑤",
+    "⑥",
+    "⑦",
+    "⑧",
+    "⑨",
+    "⑩",
+    "⑪",
+    "⑫",
 ]
 
 DICES_DRAW = (

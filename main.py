@@ -3,7 +3,6 @@ import platform
 from user import User
 from utils import (
     YACHT_DICE_TEXT,
-    CATEGORIES,
     DICES_DRAW,
     RED_COLOR,
     BLUE_COLOR,
@@ -25,10 +24,9 @@ def print_logo():
         try:
             n = int(input("플레이 할 인원 수를 입력하세요(2 ~ 4): "))
             break
-        except:
+        except ValueError:
             os.system(CLEAR)
             print(YACHT_DICE_TEXT)
-            n = int(input("플레이 할 인원 수를 입력하세요(2 ~ 4): "))
     return n
 
 
@@ -129,6 +127,13 @@ if __name__ == "__main__":
                     play = CYAN_COLOR + "4p" + END_COLOR
                 name = input(f"{play} 이름을 입력하세요: ")
                 users.append(User(name))
+        else:
+            tmp = []
+            for user in users:
+                tmp.append(user.name)
+            users = []
+            for user in tmp:
+                users.append(User(user))
 
         for t in range(1, 13):
             for idx, user in enumerate(users):
@@ -147,7 +152,7 @@ if __name__ == "__main__":
                         user.set_score(game_display(c, t, users, idx))
                     c += 1
         display.print_winner(game_result(users))
-        regame = input("게임을 다시 하려면 r을 누르세요: ")
+        re_game = input("게임을 다시 하려면 r을 누르세요: ")
         flag = True
-        if regame != "r":
+        if re_game != "r":
             break
